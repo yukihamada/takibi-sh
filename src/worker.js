@@ -82,6 +82,11 @@ const LANDING_HTML = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>takibi.sh — 焚き火コマンドの玄関</title>
 <meta name="description" content="ターミナルから一行で焚き火に入る。ATSM コミュニティの焚き火コマンドの短い玄関。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="🔥 takibi.sh">
+<meta property="og:description" content="ターミナルから一行で、焚き火に入る。 / Enter the campfire with one line from your terminal.">
+<meta property="og:url" content="https://takibi.sh">
+<meta name="twitter:card" content="summary">
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
@@ -102,24 +107,27 @@ const LANDING_HTML = `<!doctype html>
   a { color:#e8a04a; }
   .step { margin: 6px 0; }
   footer { margin-top:56px; color:#6f6453; font-size:13px; }
+  .lang { position:absolute; top:18px; right:18px; background:#1a1612; color:#f3ece2; border:1px solid #4a3d2c; border-radius:8px; padding:5px 12px; font-size:12px; cursor:pointer; }
+  .lang:hover { background:#2a2218; }
 </style>
 </head>
 <body>
 <div class="wrap">
+  <button class="lang" id="langBtn" onclick="__setLang(__lang==='ja'?'en':'ja')">🌐 EN</button>
   <h1>🔥 takibi.sh</h1>
-  <p class="sub">ターミナルから一行で、焚き火に入る。</p>
+  <p class="sub" data-i18n="sub">ターミナルから一行で、焚き火に入る。</p>
 
-  <h2>1. 繋ぐ</h2>
+  <h2 data-i18n="h1">1. 繋ぐ</h2>
   <pre><button class="copy" data-c='claude mcp add --transport http takibi https://takibi.sh/mcp --header "Authorization: Bearer &lt;token&gt;"'>copy</button><code>claude mcp add --transport http takibi https://takibi.sh/mcp \\
   --header "Authorization: Bearer &lt;token&gt;"</code></pre>
-  <p class="muted">&lt;token&gt; は招待リンクから取得した api_token（次の「2. 招待」参照）。</p>
+  <p class="muted" data-i18n="tok">&lt;token&gt; は招待リンクから取得した api_token（次の「2. 招待」参照）。</p>
 
-  <h2>2. 招待をもらう</h2>
-  <p class="step">① 焚き火（atsm.wtf）の仲間に招待を依頼（kenny / yuki が発行・承認）</p>
-  <p class="step">② <a href="/connect">takibi.sh/connect?invite=&lt;token&gt;</a> を開いてメールで申請 → 承認されると magic link が届く → <code>api_token</code> 取得</p>
-  <p class="step">③ 上の一行で繋ぐ。あとは作業の区切りに薪をくべる。</p>
+  <h2 data-i18n="h2">2. 招待をもらう</h2>
+  <p class="step" data-i18n="s1">① 焚き火（atsm.wtf）の仲間に招待を依頼（kenny / yuki が発行・承認）</p>
+  <p class="step">② <a href="/connect">takibi.sh/connect?invite=&lt;token&gt;</a> <span data-i18n="s2">を開いてメールで申請 → 承認されると magic link が届く → <code>api_token</code> 取得</span></p>
+  <p class="step" data-i18n="s3">③ 上の一行で繋ぐ。あとは作業の区切りに薪をくべる。</p>
 
-  <h2>3. 焚き火コマンド</h2>
+  <h2 data-i18n="h3">3. 焚き火コマンド</h2>
   <ul>
     <li><code>/tension</code> <span class="muted">— 5部まとめ（売上・死活・コミット・カウントダウン）</span></li>
     <li><code>/mu &lt;自由文&gt;</code> <span class="muted">— MU グッズを作る（例: 焚き火のTシャツ作って）</span></li>
@@ -130,12 +138,12 @@ const LANDING_HTML = `<!doctype html>
     <li><code>/sites</code> <span class="muted">— 全サイトのヘルスチェック</span></li>
     <li><code>/commits</code> · <code>/prs</code> · <code>/uta</code> · <code>/help</code></li>
   </ul>
-  <p class="muted">薪の先頭にコマンドを書くと焚き火ボットが動く。日本語エイリアス（「テンション」「家建てて」等）も可。</p>
+  <p class="muted" data-i18n="cmdnote">薪の先頭にコマンドを書くと焚き火ボットが動く。日本語エイリアス（「テンション」「家建てて」等）も可。</p>
 
-  <h2>約束</h2>
-  <p class="muted">LOVE &amp; RESPECT ／ 盛らない ／ 薪は雑でいい ／ 最後の判は、人が。<br>迷ったら <a href="https://atsm.wtf">atsm.wtf</a> へ。</p>
+  <h2 data-i18n="h4">約束</h2>
+  <p class="muted"><span data-i18n="promise">LOVE &amp; RESPECT ／ 盛らない ／ 薪は雑でいい ／ 最後の判は、人が。</span><br><span data-i18n="lost">迷ったら</span> <a href="https://atsm.wtf">atsm.wtf</a> <span data-i18n="lost2">へ。</span></p>
 
-  <footer>🔥 焚き火のある場所 — atsm.wtf</footer>
+  <footer data-i18n="foot">🔥 焚き火のある場所 — atsm.wtf</footer>
 </div>
 <script>
   document.querySelectorAll('.copy').forEach(function(b){
@@ -145,6 +153,47 @@ const LANDING_HTML = `<!doctype html>
       });
     });
   });
+
+  // i18n (ja/en) — vision: 世界中で使われる / i18n by default
+  var I18N = {
+    en: {
+      sub: "Enter the campfire with one line from your terminal.",
+      h1: "1. Connect",
+      tok: "&lt;token&gt; is the api_token from your invite link (see step 2).",
+      h2: "2. Get invited",
+      s1: "① Ask a campfire (atsm.wtf) member for an invite (issued/approved by kenny / yuki)",
+      s2: "— open it, apply by email → on approval a magic link arrives → get your <code>api_token</code>",
+      s3: "③ Connect with the one-liner above. Then toss a log on the fire at each break.",
+      h3: "3. Campfire commands",
+      cmdnote: "Start a log with a command and the campfire bot runs. Japanese aliases also work.",
+      h4: "The promise",
+      promise: "LOVE &amp; RESPECT ／ no hype ／ rough logs welcome ／ a human presses the last button.",
+      lost: "Lost? Head to", lost2: ".",
+      foot: "🔥 where the campfire is — atsm.wtf",
+      langBtn: "🌐 日本語"
+    }
+  };
+  var __lang = (localStorage.getItem("takibi_lang") || ((navigator.language||"ja").slice(0,2)==="en"?"en":"ja"));
+  function __applyI18n(){
+    var d = I18N[__lang];
+    document.documentElement.lang = __lang;
+    var btn = document.getElementById("langBtn");
+    if (__lang === "ja"){ // restore originals from data-ja, fall back to current
+      document.querySelectorAll("[data-i18n]").forEach(function(el){ if(el.dataset.ja!=null) el.innerHTML = el.dataset.ja; });
+      if (btn) btn.textContent = "🌐 EN";
+      return;
+    }
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n");
+      if (el.dataset.ja == null) el.dataset.ja = el.innerHTML; // stash ja original once
+      if (d && d[k] != null) el.innerHTML = d[k];
+    });
+    if (btn) btn.textContent = d.langBtn;
+  }
+  window.__setLang = function(l){ __lang = l; localStorage.setItem("takibi_lang", l); __applyI18n(); };
+  // stash ja originals first, then apply detected lang
+  document.querySelectorAll("[data-i18n]").forEach(function(el){ el.dataset.ja = el.innerHTML; });
+  __applyI18n();
 </script>
 </body>
 </html>`;
