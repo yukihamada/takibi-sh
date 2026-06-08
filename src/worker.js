@@ -26,11 +26,16 @@ export default {
         init.body = request.body;
       }
       const resp = await fetch(target, init);
-      // body はストリームのまま返す（JSON-RPC も SSE も素通し）
+      // body はストリームのまま返す（JSON-RPC も SSE も素通し）。
+      // CF Workers の fetch は上流ボディを自動解凍するため、content-encoding/
+      // content-length を残すと長さ不整合や二重解凍でストリームが壊れる。落とす。
+      const respHeaders = new Headers(resp.headers);
+      respHeaders.delete("content-encoding");
+      respHeaders.delete("content-length");
       return new Response(resp.body, {
         status: resp.status,
         statusText: resp.statusText,
-        headers: resp.headers,
+        headers: respHeaders,
       });
     }
 
