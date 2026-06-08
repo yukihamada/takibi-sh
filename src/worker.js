@@ -1,5 +1,6 @@
 // takibi.sh — 焚き火コマンドの短い玄関
 // - /mcp        → 本番MCP (https://atsm.wtf/mcp) へリバースプロキシ（Authorization 透過・SSE素通し）
+// - /health     → デプロイ成否の即確認（トークン不要）。?deep=1 でバックエンド死活も
 // - /connect    → atsm.wtf/connect?invite=... へ転送（招待フロー）
 // - /(その他)   → コマンド一覧 + 一行コピペ の LP
 //
@@ -34,14 +35,42 @@ export default {
       });
     }
 
-    // 2) 招待フロー転送（短いURLで入れる）: /connect?invite=xxx
+    // 2) ヘルスチェック: /health （トークン不要・デプロイ成否の即確認用）
+    //    ?deep=1 を付けるとバックエンド(atsm.wtf/mcp)の死活も確認する
+    if (url.pathname === "/health") {
+      const body = { ok: true, service: "takibi.sh", backend: BACKEND };
+      if (url.searchParams.get("deep") === "1") {
+        try {
+          const r = await fetch(BACKEND + "/mcp", {
+            method: "POST",
+            headers: { "content-type": "application/json", accept: "application/json, text/event-stream" },
+            body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
+          });
+          body.backend_status = r.status;
+          body.ok = r.ok;
+        } catch (e) {
+          body.ok = false;
+          body.backend_status = "unreachable";
+        }
+      }
+      return new Response(JSON.stringify(body), {
+        status: body.ok ? 200 : 503,
+        headers: { "content-type": "application/json; charset=utf-8" },
+      });
+    }
+
+    // 3) 招待フロー転送（短いURLで入れる）: /connect?invite=xxx
     if (url.pathname === "/connect") {
       return Response.redirect(BACKEND + "/connect" + url.search, 302);
     }
 
-    // 3) LP
+    // 4) LP
     return new Response(LANDING_HTML, {
-      headers: { "content-type": "text/html; charset=utf-8" },
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "no-referrer",
+      },
     });
   },
 };

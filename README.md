@@ -12,6 +12,7 @@ claude mcp add --transport http takibi https://takibi.sh/mcp \
 | パス | 動作 |
 |---|---|
 | `/mcp` | 本番MCP `https://atsm.wtf/mcp` へリバースプロキシ。`Authorization: Bearer` を透過。JSON-RPC も SSE も素通し |
+| `/health` | デプロイ成否の即確認（トークン不要）。`?deep=1` でバックエンド `atsm.wtf/mcp` の死活も返す |
 | `/connect` | `https://atsm.wtf/connect?invite=...` へ302転送（招待フロー） |
 | `/`（その他） | コマンド一覧＋一行コピペの LP |
 
@@ -33,6 +34,9 @@ wrangler deploy
 `wrangler.toml` の `routes` で `takibi.sh/*` に当たる。デプロイ後の確認:
 
 ```bash
+# ヘルスチェック（トークン不要・一発で成否がわかる）
+curl -sS https://takibi.sh/health           # {"ok":true,...}
+curl -sS "https://takibi.sh/health?deep=1"   # バックエンド死活も
 # LP
 curl -sS https://takibi.sh/ | head
 # MCP プロキシ（本番と同じ tools 一覧が返れば成功）
