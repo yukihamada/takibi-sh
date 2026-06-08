@@ -1,11 +1,13 @@
 name = "takibi-sh"
 main = "src/worker.js"
 compatibility_date = "2026-06-01"
+workers_dev = false  # *.workers.dev URL を出さない（takibi.sh だけで配る）
 
-# takibi.sh は Cloudflare 管理（NS=cloudflare）。Worker をドメイン全体に当てる。
-# 注意: routes を使うには Cloudflare ダッシュボードでゾーン takibi.sh が
-# このアカウントに紐づいている必要がある（粟田さんのアカウント）。
+# Custom Domains で配る。custom_domain=true なら wrangler deploy が
+# 当該ゾーンに proxied DNS レコードと edge 証明書を自動作成する。
+# → 粟田さんは「DNSレコードを手で作る」作業が不要。deploy 一発で解決する。
+# 前提: ゾーン takibi.sh が wrangler login したアカウントに紐づいていること。
 routes = [
-  { pattern = "takibi.sh/*", zone_name = "takibi.sh" },
-  { pattern = "www.takibi.sh/*", zone_name = "takibi.sh" },
+  { pattern = "takibi.sh", custom_domain = true },
+  { pattern = "www.takibi.sh", custom_domain = true },
 ]
