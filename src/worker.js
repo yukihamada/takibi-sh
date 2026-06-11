@@ -1,12 +1,12 @@
 // takibi.sh — 焚き火コマンドの短い玄関
-// - /mcp        → 本番MCP (https://atsm.wtf/mcp) へリバースプロキシ（Authorization 透過・SSE素通し）
+// - /mcp        → 本番MCP (https://takibi.wtf/mcp) へリバースプロキシ（Authorization 透過・SSE素通し）
 // - /health     → デプロイ成否の即確認（トークン不要）。?deep=1 でバックエンド死活も
-// - /connect    → atsm.wtf/connect?invite=... へ転送（招待フロー）
+// - /connect    → takibi.wtf/connect?invite=... へ転送（招待フロー）
 // - /(その他)   → コマンド一覧 + 一行コピペ の LP
 //
 // デプロイ: wrangler deploy （ルート takibi.sh/* は wrangler.toml で設定）
 
-const BACKEND = "https://atsm.wtf";
+const BACKEND = "https://takibi.wtf";
 
 export default {
   async fetch(request) {
@@ -36,7 +36,7 @@ export default {
     }
 
     // 2) ヘルスチェック: /health （トークン不要・デプロイ成否の即確認用）
-    //    ?deep=1 を付けるとバックエンド(atsm.wtf/mcp)の死活も確認する
+    //    ?deep=1 を付けるとバックエンド(takibi.wtf/mcp)の死活も確認する
     if (url.pathname === "/health") {
       const body = { ok: true, service: "takibi.sh", backend: BACKEND };
       if (url.searchParams.get("deep") === "1") {
@@ -115,7 +115,7 @@ const LANDING_HTML = `<!doctype html>
   <p class="muted">&lt;token&gt; は招待リンクから取得した api_token（次の「2. 招待」参照）。</p>
 
   <h2>2. 招待をもらう</h2>
-  <p class="step">① 焚き火（atsm.wtf）の仲間に招待を依頼（kenny / yuki が発行・承認）</p>
+  <p class="step">① 焚き火（takibi.wtf）の仲間に招待を依頼（kenny / yuki が発行・承認）</p>
   <p class="step">② <a href="/connect">takibi.sh/connect?invite=&lt;token&gt;</a> を開いてメールで申請 → 承認されると magic link が届く → <code>api_token</code> 取得</p>
   <p class="step">③ 上の一行で繋ぐ。あとは作業の区切りに薪をくべる。</p>
 
@@ -133,9 +133,9 @@ const LANDING_HTML = `<!doctype html>
   <p class="muted">薪の先頭にコマンドを書くと焚き火ボットが動く。日本語エイリアス（「テンション」「家建てて」等）も可。</p>
 
   <h2>約束</h2>
-  <p class="muted">LOVE &amp; RESPECT ／ 盛らない ／ 薪は雑でいい ／ 最後の判は、人が。<br>迷ったら <a href="https://atsm.wtf">atsm.wtf</a> へ。</p>
+  <p class="muted">LOVE &amp; RESPECT ／ 盛らない ／ 薪は雑でいい ／ 最後の判は、人が。<br>迷ったら <a href="https://takibi.wtf">takibi.wtf</a> へ。</p>
 
-  <footer>🔥 焚き火のある場所 — atsm.wtf</footer>
+  <footer>🔥 焚き火のある場所 — takibi.wtf</footer>
 </div>
 <script>
   document.querySelectorAll('.copy').forEach(function(b){
