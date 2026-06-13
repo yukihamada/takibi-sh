@@ -14,6 +14,7 @@ claude mcp add --transport http takibi https://takibi.sh/mcp \
 | `/mcp` | 本番MCP `https://atsm.wtf/mcp` へリバースプロキシ。`Authorization: Bearer` を透過。JSON-RPC も SSE も素通し |
 | `/health` | デプロイ成否の即確認（トークン不要）。`?deep=1` でバックエンド `atsm.wtf/mcp` の死活も返す |
 | `/connect` | `https://atsm.wtf/connect?invite=...` へ302転送（招待フロー） |
+| `/alexa` | Alexa スキル「たきび」のバックエンド（POST）。最新の薪を取得して読み上げSSMLを返す。→ [alexa/README.md](alexa/README.md) |
 | `/`（その他） | コマンド一覧＋一行コピペの LP |
 
 kenny さんの本番 atsm.wtf 側のインフラには一切触らない（プロキシのみ）。トークンはホスト非依存の Bearer なので、takibi.sh 経由でもそのまま機能する。

@@ -1,0 +1,33 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "たきび",
+      "intents": [
+        { "name": "AMAZON.StopIntent", "samples": [] },
+        { "name": "AMAZON.CancelIntent", "samples": [] },
+        { "name": "AMAZON.HelpIntent", "samples": [] },
+        { "name": "AMAZON.NavigateHomeIntent", "samples": [] },
+        { "name": "AMAZON.FallbackIntent", "samples": [] },
+        {
+          "name": "ReadWoodIntent",
+          "slots": [],
+          "samples": [
+            "繋げて",
+            "繋いで",
+            "つなげて",
+            "つないで",
+            "最新の薪",
+            "薪を読んで",
+            "薪を教えて",
+            "いまの焚き火",
+            "今の焚き火",
+            "焚き火を読んで",
+            "焚き火の様子",
+            "最新を読んで"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}
