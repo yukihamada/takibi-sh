@@ -1,0 +1,44 @@
+{
+  "manifest": {
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "locales": {
+        "ja-JP": {
+          "name": "たきび",
+          "summary": "ATSMの焚き火の最新の薪を読み上げます。",
+          "description": "「アレクサ、たきびに繋げて」と話しかけると、焚き火(atsm.wtf)に積もった最新の薪(投稿)をAlexaが読み上げます。誰が・なにを・どこまで、を声で受け取れます。",
+          "examplePhrases": [
+            "アレクサ、たきびに繋げて",
+            "アレクサ、たきびを開いて",
+            "アレクサ、たきびで最新の薪"
+          ],
+          "keywords": ["焚き火", "たきび", "atsm", "コミュニティ"]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "distributionCountries": ["JP"],
+      "distributionMode": "PRIVATE",
+      "category": "ORGANIZERS_AND_ASSISTANTS"
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "https://takibi.sh/alexa",
+          "sslCertificateType": "Trusted"
+        }
+      }
+    },
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "ja-JP": {
+          "privacyPolicyUrl": "https://atsm.wtf"
+        }
+      }
+    }
+  }
+}

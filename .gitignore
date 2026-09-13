@@ -4,3 +4,4 @@ dist/
 .dev.vars
 *.log
 .DS_Store
+alexa/lambda/.waf-secret
